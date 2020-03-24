@@ -1,7 +1,15 @@
 import React, { Fragment, Component } from 'react'
 import Person from './Person/Person'
-
+import AuthContext from '../../context/AuthContext'
 class Persons extends Component {
+
+    //This is an approach to use the context in lifecycle
+    static contextType = AuthContext;
+
+    componentDidMount() {
+        console.log(this.context.isAuthenticate)
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         if(this.props.persons!== nextProps.persons)
             return true;
@@ -16,7 +24,8 @@ class Persons extends Component {
             <Person key={index} 
             name={person.name} 
             age={person.age}
-            click = {() => this.props.remove(index)} />)}
+            click = {() => this.props.remove(index)}
+            changed = {(event) => this.props.changed(event, index)} />)}
         </Fragment>)
     }
 }
